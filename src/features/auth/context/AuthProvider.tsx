@@ -1,6 +1,6 @@
 import React, { useReducer, useRef, useContext } from "react";
 import type { ReactNode } from "react";
-import { authReducer, initialAuthState } from "../authReducer";
+import { authReducer, initialAuthState } from "./authReducer";
 import {
   getRegisteredUserByEmail,
   login,
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  function handleEmailCheck(email: string) {
+  function handleEmailCheck(email: string): void {
     getRegisteredUserByEmail(email)
       .then((res) => {
         dispatch({
@@ -41,11 +41,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
   }
 
-  function validateEmail(email: string) {
+  function validateEmail(email: string): boolean {
     return EMAIL_REGEX.test(email);
   }
 
-  function onEmailChange(email: string) {
+  function handleEmailChange(email: string): void {
     dispatch({ type: "SET_EMAIL", email });
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     debounceTimeout.current = setTimeout(() => {
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, 500);
   }
 
-  function handleLogin() {
+  function handleLogin(): void {
     login(state.email, state.password)
       .then((res) => {
         dispatch({ type: "SET_LOADING", loading: false });
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
   }
 
-  function handleRegister() {
+  function handleRegister(): void {
     register(state.email, state.password)
       .then((res) => {
         dispatch({ type: "SET_LOADING", loading: false });
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent): void {
     e.preventDefault();
     dispatch({ type: "SET_LOADING", loading: true });
     if (state.isRegistered === true) {
@@ -106,23 +106,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  function onEmailBlur() {
+  function handleEmailBlur(): void {
     if (state.email && !validateEmail(state.email)) {
       dispatch({ type: "SET_EMAIL_ERROR", message: "Invalid email address" });
     }
   }
 
-  function onPasswordChange(password: string) {
+  function handlePasswordChange(password: string): void {
     dispatch({ type: "SET_PASSWORD", password });
     dispatch({ type: "SET_ERROR", message: null });
   }
 
-  function onConfirmPasswordChange(confirmPassword: string) {
+  function handleConfirmPasswordChange(confirmPassword: string): void {
     dispatch({ type: "SET_CONFIRM_PASSWORD", confirmPassword });
     dispatch({ type: "SET_ERROR", message: null });
   }
 
-  function reset() {
+  function reset(): void {
     dispatch({ type: "RESET" });
   }
 
@@ -130,10 +130,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         state,
-        onEmailChange,
-        onEmailBlur,
-        onPasswordChange,
-        onConfirmPasswordChange,
+        handleEmailChange,
+        handleEmailBlur,
+        handlePasswordChange,
+        handleConfirmPasswordChange,
         reset,
         handleSubmit,
       }}

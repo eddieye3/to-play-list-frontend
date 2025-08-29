@@ -1,12 +1,12 @@
-import type { AuthState } from "../authReducer";
+import type { AuthState } from "./authReducer";
 import { createContext, useContext } from "react";
 
 export interface AuthContextType {
   state: AuthState;
-  onEmailChange: (email: string) => void;
-  onEmailBlur: () => void;
-  onPasswordChange: (password: string) => void;
-  onConfirmPasswordChange: (confirmPassword: string) => void;
+  handleEmailChange: (email: string) => void;
+  handleEmailBlur: () => void;
+  handlePasswordChange: (password: string) => void;
+  handleConfirmPasswordChange: (confirmPassword: string) => void;
   reset: () => void;
   handleSubmit: (e: React.FormEvent) => void;
 }

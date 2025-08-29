@@ -10,10 +10,10 @@ import { PASSWORD_CONDITIONS } from "./constants/authConstants";
 export function AuthForm() {
   const {
     state,
-    onEmailChange,
-    onEmailBlur,
-    onPasswordChange,
-    onConfirmPasswordChange,
+    handleEmailChange,
+    handleEmailBlur,
+    handlePasswordChange,
+    handleConfirmPasswordChange,
     reset,
     handleSubmit,
   } = useAuthContext();
@@ -37,8 +37,8 @@ export function AuthForm() {
       >
         <EmailInput
           email={state.email}
-          onChange={onEmailChange}
-          onBlur={onEmailBlur}
+          onChange={handleEmailChange}
+          onBlur={handleEmailBlur}
           error={state.emailError}
         />
         {state.emailError && (
@@ -49,7 +49,7 @@ export function AuthForm() {
             password={state.password}
             error={state.error}
             isRegistered={state.isRegistered}
-            onPasswordChange={onPasswordChange}
+            onPasswordChange={handlePasswordChange}
           />
         )}
         {state.isRegistered === false && (
@@ -60,7 +60,7 @@ export function AuthForm() {
             confirmPassword={state.confirmPassword}
             error={state.error}
             isRegistered={state.isRegistered ?? false}
-            onConfirmPasswordChange={onConfirmPasswordChange}
+            onConfirmPasswordChange={handleConfirmPasswordChange}
           />
         )}
         {state.error && (
