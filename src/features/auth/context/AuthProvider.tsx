@@ -1,10 +1,15 @@
-import { useReducer, useRef } from "react";
-import { authReducer, initialAuthState } from "./authReducer";
-import { getRegisteredUserByEmail } from "../../services/authService";
-import { login, register } from "../../services/authService";
-import { EMAIL_REGEX } from "./authConstants";
+import React, { useReducer, useRef, useContext } from "react";
+import type { ReactNode } from "react";
+import { authReducer, initialAuthState } from "../authReducer";
+import {
+  getRegisteredUserByEmail,
+  login,
+  register,
+} from "../service/authService";
+import { EMAIL_REGEX, PASSWORD_CONDITIONS } from "../constants/authConstants";
+import { AuthContext } from "./authContext";
 
-export function useAuthFlow() {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -19,7 +24,6 @@ export function useAuthFlow() {
       .catch((err) => {
         if (err.response && err.response.status) {
           if (err.response.status === 429) {
-            // User is rate limited, log it
             console.log("getRegisteredUserByEmail: User is rate limited");
             dispatch({ type: "CHECK_EMAIL_SUCCESS", isRegistered: false });
           }
@@ -41,10 +45,8 @@ export function useAuthFlow() {
     return EMAIL_REGEX.test(email);
   }
 
-  // Debounced email check
   function onEmailChange(email: string) {
     dispatch({ type: "SET_EMAIL", email });
-
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     debounceTimeout.current = setTimeout(() => {
       if (validateEmail(email)) {
@@ -59,7 +61,7 @@ export function useAuthFlow() {
       .then((res) => {
         dispatch({ type: "SET_LOADING", loading: false });
         console.log("login success: ", res);
-        // TOGO: login success
+        // TODO: handle login success
       })
       .catch((err) => {
         dispatch({
@@ -74,7 +76,7 @@ export function useAuthFlow() {
       .then((res) => {
         dispatch({ type: "SET_LOADING", loading: false });
         console.log("register success: ", res);
-        // TOGO: register success
+        // TODO: handle register success
       })
       .catch((err) => {
         dispatch({
@@ -84,17 +86,13 @@ export function useAuthFlow() {
       });
   }
 
-  // Simulate async login/signup
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
     dispatch({ type: "SET_LOADING", loading: true });
     if (state.isRegistered === true) {
       handleLogin();
       return;
     }
-
-    // Client validation: signup confirm mismatch
     if (
       state.isRegistered === false &&
       state.password !== state.confirmPassword
@@ -102,7 +100,6 @@ export function useAuthFlow() {
       dispatch({ type: "SET_ERROR", message: "Passwords do not match" });
       return;
     }
-
     if (state.isRegistered === false) {
       handleRegister();
       return;
@@ -129,13 +126,19 @@ export function useAuthFlow() {
     dispatch({ type: "RESET" });
   }
 
-  return {
-    state,
-    onEmailChange,
-    onEmailBlur,
-    onPasswordChange,
-    onConfirmPasswordChange,
-    reset,
-    handleSubmit,
-  };
-}
+  return (
+    <AuthContext.Provider
+      value={{
+        state,
+        onEmailChange,
+        onEmailBlur,
+        onPasswordChange,
+        onConfirmPasswordChange,
+        reset,
+        handleSubmit,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

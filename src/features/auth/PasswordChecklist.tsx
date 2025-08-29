@@ -1,5 +1,5 @@
 import React from "react";
-import { PASSWORD_CONDITIONS } from "./authConstants";
+import { PASSWORD_CONDITIONS } from "./constants/authConstants";
 
 interface PasswordChecklistProps {
   pwChecklist: boolean[];

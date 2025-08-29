@@ -1,13 +1,13 @@
 import React from "react";
-import { useAuthFlow } from "./useAuthFlow";
+import { useAuthContext } from "./context/authContext";
 import { EmailInput } from "./EmailInput";
 import { PasswordInput } from "./PasswordInput";
 import { SignupButton } from "./SignupButton";
 import { PasswordChecklist } from "./PasswordChecklist";
 import { ConfirmPasswordInput } from "./ConfirmPasswordInput";
-import { PASSWORD_CONDITIONS } from "./authConstants";
+import { PASSWORD_CONDITIONS } from "./constants/authConstants";
 
-export function AuthView() {
+export function AuthForm() {
   const {
     state,
     onEmailChange,
@@ -16,7 +16,7 @@ export function AuthView() {
     onConfirmPasswordChange,
     reset,
     handleSubmit,
-  } = useAuthFlow();
+  } = useAuthContext();
 
   const totalConditions = PASSWORD_CONDITIONS.length;
   const pwChecklist = PASSWORD_CONDITIONS.map((cond) =>
