@@ -8,15 +8,7 @@ import { ConfirmPasswordInput } from "./ConfirmPasswordInput";
 import { PASSWORD_CONDITIONS } from "./constants/authConstants";
 
 export function AuthForm() {
-  const {
-    state,
-    handleEmailChange,
-    handleEmailBlur,
-    handlePasswordChange,
-    handleConfirmPasswordChange,
-    reset,
-    handleSubmit,
-  } = useAuthContext();
+  const { state, handleSubmit } = useAuthContext();
 
   const totalConditions = PASSWORD_CONDITIONS.length;
   const pwChecklist = PASSWORD_CONDITIONS.map((cond) =>
@@ -35,34 +27,15 @@ export function AuthForm() {
         className="w-full max-w-sm space-y-4"
         onSubmit={handleSubmit}
       >
-        <EmailInput
-          email={state.email}
-          onChange={handleEmailChange}
-          onBlur={handleEmailBlur}
-          error={state.emailError}
-        />
+        <EmailInput />
         {state.emailError && (
           <span className="text-xs text-red-500">{state.emailError}</span>
         )}
-        {state.showPassword && (
-          <PasswordInput
-            password={state.password}
-            error={state.error}
-            isRegistered={state.isRegistered}
-            onPasswordChange={handlePasswordChange}
-          />
-        )}
+        {state.showPassword && <PasswordInput />}
         {state.isRegistered === false && (
           <PasswordChecklist pwChecklist={pwChecklist} />
         )}
-        {state.isRegistered === false && (
-          <ConfirmPasswordInput
-            confirmPassword={state.confirmPassword}
-            error={state.error}
-            isRegistered={state.isRegistered ?? false}
-            onConfirmPasswordChange={handleConfirmPasswordChange}
-          />
-        )}
+        {state.isRegistered === false && <ConfirmPasswordInput />}
         {state.error && (
           <span className="text-xs text-red-500">{state.error}</span>
         )}

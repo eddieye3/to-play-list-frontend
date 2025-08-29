@@ -1,18 +1,9 @@
 import React from "react";
 import { Input } from "../../components/ui/Input";
-interface ConfirmPasswordInputProps {
-  confirmPassword: string;
-  error: string | null;
-  isRegistered: boolean;
-  onConfirmPasswordChange: (pw: string) => void;
-}
+import { useAuthContext } from "./context/authContext";
 
-export function ConfirmPasswordInput({
-  confirmPassword,
-  error,
-  isRegistered,
-  onConfirmPasswordChange,
-}: ConfirmPasswordInputProps) {
+export function ConfirmPasswordInput() {
+  const { state, handleConfirmPasswordChange } = useAuthContext();
   return (
     <>
       <label
@@ -26,9 +17,9 @@ export function ConfirmPasswordInput({
         name="confirmPassword"
         type="password"
         placeholder="Confirm your password"
-        value={confirmPassword}
-        onChange={onConfirmPasswordChange}
-        invalid={!isRegistered && !!error}
+        value={state.confirmPassword}
+        onChange={handleConfirmPasswordChange}
+        invalid={!state.isRegistered && !!state.error}
         autoComplete="new-password"
       />
     </>

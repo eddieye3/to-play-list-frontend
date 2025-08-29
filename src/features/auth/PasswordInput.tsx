@@ -1,18 +1,9 @@
 import React from "react";
 import { Input } from "../../components/ui/Input";
-interface PasswordInputProps {
-  password: string;
-  error: string | null;
-  isRegistered: boolean | null;
-  onPasswordChange: (pw: string) => void;
-}
+import { useAuthContext } from "./context/authContext";
 
-export function PasswordInput({
-  password,
-  error,
-  isRegistered,
-  onPasswordChange,
-}: PasswordInputProps) {
+export function PasswordInput() {
+  const { state, handlePasswordChange } = useAuthContext();
   return (
     <>
       <label
@@ -26,10 +17,10 @@ export function PasswordInput({
         name="password"
         type="password"
         placeholder={"Your password"}
-        value={password}
-        onChange={onPasswordChange}
-        invalid={isRegistered === false && !!error}
-        autoComplete={isRegistered ? "current-password" : "new-password"}
+        value={state.password}
+        onChange={handlePasswordChange}
+        invalid={state.isRegistered === false && !!state.error}
+        autoComplete={state.isRegistered ? "current-password" : "new-password"}
       />
     </>
   );

@@ -1,19 +1,9 @@
 import React from "react";
 import { Input } from "../../components/ui/Input";
+import { useAuthContext } from "./context/authContext";
 
-interface EmailInputProps {
-  email: string;
-  onChange: (email: string) => void;
-  onBlur: () => void;
-  error: string | null;
-}
-
-export function EmailInput({
-  email,
-  onChange,
-  onBlur,
-  error,
-}: EmailInputProps) {
+export function EmailInput() {
+  const { state, handleEmailChange, handleEmailBlur } = useAuthContext();
   return (
     <>
       <label
@@ -27,10 +17,10 @@ export function EmailInput({
         name="email"
         type="email"
         placeholder="you@example.com"
-        value={email}
-        onChange={onChange}
-        onBlur={onBlur}
-        invalid={!!error}
+        value={state.email}
+        onChange={handleEmailChange}
+        onBlur={handleEmailBlur}
+        invalid={!!state.emailError}
         autoComplete="email"
       />
     </>

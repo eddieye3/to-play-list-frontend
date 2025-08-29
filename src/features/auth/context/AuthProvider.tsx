@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  // check if the email is registered by querying the backend
   function handleEmailCheck(email: string): void {
     getRegisteredUserByEmail(email)
       .then((res) => {
@@ -45,6 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return EMAIL_REGEX.test(email);
   }
 
+  // debounced email check
   function handleEmailChange(email: string): void {
     dispatch({ type: "SET_EMAIL", email });
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
@@ -122,6 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_ERROR", message: null });
   }
 
+  // maybe use later
   function reset(): void {
     dispatch({ type: "RESET" });
   }

@@ -1,14 +1,28 @@
+// the managed state
 export interface AuthState {
   email: string;
-  isRegistered: boolean | null;
+  isRegistered: boolean | null; // null = unknown, true/false = checked
   password: string;
   confirmPassword: string;
-  metCount: number;
+  metCount: number; // Number of password conditions met
   loading: boolean;
   error: string | null;
   emailError: string | null;
-  showPassword: boolean;
+  showPassword: boolean; // Controls visibility of password fields
 }
+
+// default state
+export const initialAuthState: AuthState = {
+  email: "",
+  isRegistered: null,
+  password: "",
+  confirmPassword: "",
+  metCount: 0,
+  loading: false,
+  error: null,
+  emailError: null,
+  showPassword: false,
+};
 
 export type AuthAction =
   | { type: "SET_EMAIL"; email: string }
@@ -21,18 +35,6 @@ export type AuthAction =
   | { type: "SET_ERROR"; message: string | null }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "RESET" };
-
-export const initialAuthState: AuthState = {
-  email: "",
-  isRegistered: null,
-  password: "",
-  confirmPassword: "",
-  metCount: 0,
-  loading: false,
-  error: null,
-  emailError: null,
-  showPassword: false,
-};
 
 export function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
