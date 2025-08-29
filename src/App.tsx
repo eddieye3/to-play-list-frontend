@@ -1,13 +1,24 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MainLayout } from "./components/layout/MainLayout";
+import { LandingView } from "./features/landing/LandingView";
+import { AuthView } from "./features/auth/AuthView";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" />
+        <Route element={<MainLayout />}>
+          <Route
+            path="/"
+            element={<LandingView />}
+          />
+          <Route
+            path="/auth"
+            element={<AuthView />}
+          />
+        </Route>
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

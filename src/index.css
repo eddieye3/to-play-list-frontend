@@ -1,3 +1,155 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Primary – emerald green (flipped light-to-dark) */
+  --color-primary-50:  #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;  /* brand green */
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
+  
+  /* Secondary – teal/cyan accents */
+  --color-secondary-50:  #f0fdfd;
+  --color-secondary-100: #ccfbf1;
+  --color-secondary-200: #99f6e4;
+  --color-secondary-300: #5eead4;
+  --color-secondary-400: #2dd4bf;
+  --color-secondary-500: #14b8a6;  /* accent teal */
+  --color-secondary-600: #0d9488;
+  --color-secondary-700: #0f766e;
+  --color-secondary-800: #115e59;
+  --color-secondary-900: #134e4a;
+  
+  /* Neutral – light grays with subtle depth */
+  --color-neutral-50:  #f9fafb;  /* background */
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;  /* mid gray */
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;  /* darkest text */
+}
+
+[data-theme="dark"] {
+  /* Primary – ChatGPT green */
+  --color-primary-50:  #022c22;
+  --color-primary-100: #064e3b;
+  --color-primary-200: #047857;
+  --color-primary-300: #059669;
+  --color-primary-400: #10b981;
+  --color-primary-500: #34d399;
+  --color-primary-600: #6ee7b7;
+  --color-primary-700: #a7f3d0;
+  --color-primary-800: #d1fae5;
+  --color-primary-900: #ecfdf5;
+    
+  /* Secondary – teal/cyan accents */
+  --color-secondary-50:  #083344;
+  --color-secondary-100: #0e7490;
+  --color-secondary-200: #0891b2;
+  --color-secondary-300: #06b6d4;
+  --color-secondary-400: #22d3ee;
+  --color-secondary-500: #67e8f9;
+  --color-secondary-600: #a5f3fc;
+  --color-secondary-700: #cffafe;
+  --color-secondary-800: #e0fafa;
+  --color-secondary-900: #f0fdfd;
+    
+  /* Neutral – dark grays with a greenish tint */
+  --color-neutral-50:  #181a1f;  /* background */
+  --color-neutral-100: #1e2026;
+  --color-neutral-200: #23252c;
+  --color-neutral-300: #2a2d35;
+  --color-neutral-400: #383c47;
+  --color-neutral-500: #4a4f5c;  /* mid gray */
+  --color-neutral-600: #6b7280;
+  --color-neutral-700: #9ca3af;
+  --color-neutral-800: #d1d5db;
+  --color-neutral-900: #f3f4f6;  /* light text */ 
+}
+
+[data-theme="nature"] {
+  /* Primary (Green) */
+  --color-primary-50:  #ECFDF5;
+  --color-primary-100: #D1FAE5;
+  --color-primary-200: #A7F3D0;
+  --color-primary-300: #6EE7B7;
+  --color-primary-400: #34D399;
+  --color-primary-500: #10B981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065F46;
+  --color-primary-900: #064E3B;
+  
+  /* Secondary (Blue) */
+  --color-secondary-50:  #EFF6FF;
+  --color-secondary-100: #DBEAFE;
+  --color-secondary-200: #BFDBFE;
+  --color-secondary-300: #93C5FD;
+  --color-secondary-400: #60A5FA;
+  --color-secondary-500: #3B82F6;
+  --color-secondary-600: #2563EB;
+  --color-secondary-700: #1D4ED8;
+  --color-secondary-800: #1E40AF;
+  --color-secondary-900: #1E3A8A;
+  
+  /* Neutral (Cool Gray) */
+  --color-neutral-50:  #F9FAFB;
+  --color-neutral-100: #F3F4F6;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-300: #D1D5DB;
+  --color-neutral-400: #9CA3AF;
+  --color-neutral-500: #6B7280;
+  --color-neutral-600: #4B5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1F2937;
+  --color-neutral-900: #111827;
+}
+
+[data-theme="indigo"] {
+  /* Primary (Indigo) */
+  --color-primary-50:  #EEF2FF;
+  --color-primary-100: #E0E7FF;
+  --color-primary-200: #C7D2FE;
+  --color-primary-300: #A5B4FC;
+  --color-primary-400: #818CF8;
+  --color-primary-500: #6366F1;
+  --color-primary-600: #4F46E5;
+  --color-primary-700: #4338CA;
+  --color-primary-800: #3730A3;
+  --color-primary-900: #312E81;
+  
+  /* Secondary (Pink) */
+  --color-secondary-50:  #FDF2F8;
+  --color-secondary-100: #FCE7F3;
+  --color-secondary-200: #FBCFE8;
+  --color-secondary-300: #F9A8D4;
+  --color-secondary-400: #F472B6;
+  --color-secondary-500: #EC4899;
+  --color-secondary-600: #DB2777;
+  --color-secondary-700: #BE185D;
+  --color-secondary-800: #9D174D;
+  --color-secondary-900: #831843;
+  
+  /* Neutral (Gray) */
+  --color-neutral-50:  #F9FAFB;
+  --color-neutral-100: #F3F4F6;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-300: #D1D5DB;
+  --color-neutral-400: #9CA3AF;
+  --color-neutral-500: #6B7280;
+  --color-neutral-600: #4B5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1F2937;
+  --color-neutral-900: #111827;
+}

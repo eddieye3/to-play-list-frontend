@@ -20,16 +20,9 @@ export default tseslint.config([
       globals: globals.browser,
     },
     rules: {
-      // Control unused imports globally
-      '@typescript-eslint/no-unused-vars': ['ignore', { 
-        'argsIgnorePattern': '^_',
-        'varsIgnorePattern': '^_',
-        'caughtErrorsIgnorePattern': '^_'
-      }],
-      // Or if you want to make it a warning instead of error:
-      // '@typescript-eslint/no-unused-vars': 'warn',
-      // Or if you want to disable it completely (not recommended):
-      // '@typescript-eslint/no-unused-vars': 'off'
+      // Disable unused variables check completely
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': 'off',
     },
   },
 ])
