@@ -23,5 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Architecture documentation (not needed in version control)
 ARCHITECTURE_PLAN.md

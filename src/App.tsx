@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import { LandingView } from "./features/landing/LandingView";
-import { AuthProvider } from "./features/auth/context/AuthProvider.tsx";
-import { AuthForm } from "./features/auth/AuthForm.tsx";
+import { AuthProvider } from "./features/auth/context/AuthProvider";
+import { AuthForm } from "./features/auth/AuthForm";
 
 function App() {
   return (

@@ -1,34 +1,23 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.VITE_BACKEND_URL + "api/auth",
 });
 
-export interface RegisteredUserResponse {
+interface RegisteredUserResponse {
   isRegistered: boolean;
-  userInfo?: string;
 }
 
 export async function getRegisteredUserByEmail(
   email: string
 ): Promise<RegisteredUserResponse> {
-  if (email.endsWith("@test.com")) {
-    return { isRegistered: true };
-  }
-  if (email.endsWith("@fail.com")) {
-    return { isRegistered: false };
-  }
-  const response = await api.get<RegisteredUserResponse>(
-    "/api/users/registered",
-    {
-      params: { email },
-    }
-  );
-  console.log("getRegisteredUserByEmail:", response);
+  const response = await api.get<RegisteredUserResponse>("/user", {
+    params: { email },
+  });
   return response.data;
 }
 
-export interface LoginResponse {
+interface LoginResponse {
   token: string;
   message?: string;
 }
@@ -37,14 +26,14 @@ export async function login(
   email: string,
   password: string
 ): Promise<LoginResponse> {
-  const response = await api.post<LoginResponse>("/api/auth/login", {
+  const response = await api.post<LoginResponse>("/login", {
     email,
     password,
   });
   return response.data;
 }
 
-export interface RegisterResponse {
+interface RegisterResponse {
   token: string;
   message?: string;
 }
@@ -55,7 +44,7 @@ export async function register(
 ): Promise<RegisterResponse> {
   //const hashedPassword = await bcrypt.hash(password, 10);
 
-  const response = await api.post<RegisterResponse>("/api/auth/register", {
+  const response = await api.post<RegisterResponse>("/register", {
     email,
     password,
   });

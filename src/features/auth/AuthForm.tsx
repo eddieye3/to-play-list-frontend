@@ -17,6 +17,8 @@ export function AuthForm() {
   const conditionMet = pwChecklist.filter(Boolean).length;
   const submitDisabled =
     state.loading ||
+    state.error !== null ||
+    state.emailError !== null ||
     !state.email ||
     !state.password ||
     (state.isRegistered === false && conditionMet < totalConditions);

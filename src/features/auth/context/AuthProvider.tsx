@@ -23,22 +23,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       })
       .catch((err) => {
-        if (err.response && err.response.status) {
+        if (err.response) {
           if (err.response.status === 429) {
-            console.log("getRegisteredUserByEmail: User is rate limited");
             dispatch({ type: "CHECK_EMAIL_SUCCESS", isRegistered: false });
+            return;
           }
-          if (err.response.status === 500) {
-            dispatch({
-              type: "SET_EMAIL_ERROR",
-              message: "Server error: Please try again later.",
-            });
-          }
+          dispatch({
+            type: "SET_EMAIL_ERROR",
+            message: err.response.data.error || "Server error occurred",
+          });
+        } else if (err.request) {
+          dispatch({
+            type: "SET_EMAIL_ERROR",
+            message: "No response from server. Please check your connection.",
+          });
+        } else {
+          dispatch({
+            type: "SET_EMAIL_ERROR",
+            message: err.message || "Failed to make request",
+          });
         }
-        dispatch({
-          type: "SET_EMAIL_ERROR",
-          message: "Unexpected error: Please try again later.",
-        });
       });
   }
 
@@ -68,7 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .catch((err) => {
         dispatch({
           type: "SET_ERROR",
-          message: "Login failed: " + err.message,
+          message: err.message,
         });
       });
   }
@@ -83,7 +87,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .catch((err) => {
         dispatch({
           type: "SET_ERROR",
-          message: "Registration failed: " + err.message,
+          message: err.message,
         });
       });
   }
