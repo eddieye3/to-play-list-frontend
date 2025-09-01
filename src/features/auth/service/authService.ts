@@ -42,8 +42,6 @@ export async function register(
   email: string,
   password: string
 ): Promise<RegisterResponse> {
-  //const hashedPassword = await bcrypt.hash(password, 10);
-
   const response = await api.post<RegisterResponse>("/register", {
     email,
     password,

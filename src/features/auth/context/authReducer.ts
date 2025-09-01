@@ -66,21 +66,18 @@ export function authReducer(state: AuthState, action: AuthAction): AuthState {
         ...state,
         isRegistered: action.isRegistered,
         emailError: null,
-        loading: false,
       };
     case "SET_PASSWORD":
       return {
         ...state,
         password: action.password,
         error: null,
-        loading: false,
       };
     case "SET_CONFIRM_PASSWORD":
       return {
         ...state,
         confirmPassword: action.confirmPassword,
         error: null,
-        loading: false,
       };
     case "SET_MET_COUNT":
       return {

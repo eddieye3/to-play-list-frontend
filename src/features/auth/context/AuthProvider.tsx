@@ -43,6 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             message: err.message || "Failed to make request",
           });
         }
+      })
+      .finally(() => {
+        dispatch({ type: "SET_LOADING", loading: false });
       });
   }
 
@@ -74,6 +77,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           type: "SET_ERROR",
           message: err.message,
         });
+      })
+      .finally(() => {
+        dispatch({ type: "SET_LOADING", loading: false });
       });
   }
 
@@ -89,6 +95,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           type: "SET_ERROR",
           message: err.message,
         });
+      })
+      .finally(() => {
+        dispatch({ type: "SET_LOADING", loading: false });
       });
   }
 
@@ -104,6 +113,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       state.password !== state.confirmPassword
     ) {
       dispatch({ type: "SET_ERROR", message: "Passwords do not match" });
+      dispatch({ type: "SET_LOADING", loading: false });
       return;
     }
     if (state.isRegistered === false) {
