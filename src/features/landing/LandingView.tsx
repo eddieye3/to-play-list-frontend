@@ -1,9 +1,9 @@
 import React from "react";
 import { Button } from "../../components/buttons/Button";
-import { useGlobalAuth } from "../auth/context/globalAuthContext";
+import { useAuth } from "../../contexts/authContext";
 
 export function LandingView() {
-  const { state, logout } = useGlobalAuth();
+  const { state, logout } = useAuth();
 
   const handleLogout = async () => {
     try {

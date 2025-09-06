@@ -1,20 +1,24 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useGlobalAuth } from "../../features/auth/context/globalAuthContext";
+import { useAuth } from "../../contexts";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { state } = useGlobalAuth();
+  const { state } = useAuth();
   const location = useLocation();
 
-  if (state.isLoading) {
+  // Show loading only during initial auth check (before any auth result)
+  // We need to distinguish between "checking auth" vs "logged out"
+  const isInitialLoad =
+    state.user === null && state.error === null && !state.hasCheckedAuth;
+
+  if (isInitialLoad) {
     return null;
   }
 
-  // Redirect to auth page if not authenticated
   if (!state.isAuthenticated) {
     return (
       <Navigate

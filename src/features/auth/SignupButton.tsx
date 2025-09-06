@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../../components/buttons/Button";
 
 interface SignupButtonProps {
-  isRegistered: boolean | null;
+  isRegistered: boolean;
   disabled: boolean;
 }
 
@@ -15,11 +15,7 @@ export function SignupButton({ isRegistered, disabled }: SignupButtonProps) {
       className="w-full"
       disabled={disabled}
     >
-      {isRegistered === null
-        ? "Loading..."
-        : isRegistered
-        ? "Login"
-        : "Sign Up"}
+      {isRegistered ? "Login" : "Sign Up"}
     </Button>
   );
 }

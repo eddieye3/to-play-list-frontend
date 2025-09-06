@@ -1,30 +1,26 @@
-// the managed state
-export interface AuthState {
+export interface AuthFormState {
   email: string;
-  isRegistered: boolean | null; // null = unknown, true/false = checked
+  isRegistered: boolean | null;
   password: string;
   confirmPassword: string;
-  metCount: number; // Number of password conditions met
-  loading: boolean;
+  metCount: number;
   error: string | null;
   emailError: string | null;
-  showPassword: boolean; // Controls visibility of password fields
+  showPassword: boolean;
 }
 
-// default state
-export const initialAuthState: AuthState = {
+export const initialAuthFormState: AuthFormState = {
   email: "",
   isRegistered: null,
   password: "",
   confirmPassword: "",
   metCount: 0,
-  loading: false,
   error: null,
   emailError: null,
   showPassword: false,
 };
 
-export type AuthAction =
+export type AuthFormAction =
   | { type: "SET_EMAIL"; email: string }
   | { type: "SET_EMAIL_ERROR"; message: string | null }
   | { type: "SHOW_PASSWORD_INPUT" }
@@ -33,16 +29,17 @@ export type AuthAction =
   | { type: "SET_CONFIRM_PASSWORD"; confirmPassword: string }
   | { type: "SET_MET_COUNT"; metCount: number }
   | { type: "SET_ERROR"; message: string | null }
-  | { type: "SET_LOADING"; loading: boolean }
   | { type: "RESET" };
 
-export function authReducer(state: AuthState, action: AuthAction): AuthState {
+export function authFormReducer(
+  state: AuthFormState,
+  action: AuthFormAction
+): AuthFormState {
   switch (action.type) {
     case "SET_EMAIL":
       return {
         ...state,
         email: action.email,
-        loading: false,
         emailError: null,
         error: null,
         password: "",
@@ -89,13 +86,8 @@ export function authReducer(state: AuthState, action: AuthAction): AuthState {
         ...state,
         error: action.message,
       };
-    case "SET_LOADING":
-      return {
-        ...state,
-        loading: action.loading,
-      };
     case "RESET":
-      return initialAuthState;
+      return initialAuthFormState;
     default:
       return state;
   }

@@ -1,9 +1,9 @@
 import React from "react";
 import { Input } from "../../components/ui/Input";
-import { useAuthContext } from "./context/authContext";
+import { useAuthFormContext } from "./context/authFormContext";
 
 export function ConfirmPasswordInput() {
-  const { state, handleConfirmPasswordChange } = useAuthContext();
+  const { state, handleConfirmPasswordChange } = useAuthFormContext();
   return (
     <>
       <label

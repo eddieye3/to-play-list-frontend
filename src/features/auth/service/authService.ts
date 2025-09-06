@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NProgress } from "../../../utils/nprogress";
 import type {
   AuthenticatedUser,
   RegisteredUserResponse,
@@ -10,6 +11,23 @@ const api = axios.create({
   baseURL: "/api/auth",
   withCredentials: true,
 });
+
+// Add NProgress interceptors
+api.interceptors.request.use((config) => {
+  NProgress.start();
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => {
+    NProgress.done();
+    return response;
+  },
+  (error) => {
+    NProgress.done();
+    return Promise.reject(error);
+  }
+);
 
 // TODO: Remove this after testing
 function sleep(ms: number): Promise<void> {

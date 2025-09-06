@@ -1,21 +1,20 @@
 import React, { useReducer, useRef } from "react";
 import type { ReactNode } from "react";
-import { authReducer, initialAuthState } from "./authReducer";
+import { authFormReducer, initialAuthFormState } from "./authFormReducer";
 import {
   getRegisteredUserByEmail,
   login,
   register,
 } from "../service/authService";
-import { EMAIL_REGEX, PASSWORD_CONDITIONS } from "../constants/authConstants";
-import { AuthContext } from "./authContext";
-import { useGlobalAuth } from "./globalAuthContext";
+import { EMAIL_REGEX } from "../constants/authConstants";
+import { AuthFormContext } from "./authFormContext";
+import { useAuth } from "../../../contexts";
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(authReducer, initialAuthState);
+export function AuthFormProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(authFormReducer, initialAuthFormState);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-  const { setAuthSuccess } = useGlobalAuth();
+  const { setAuthSuccess } = useAuth();
 
-  // check if the email is registered by querying the backend
   function handleEmailCheck(email: string): void {
     getRegisteredUserByEmail(email)
       .then((res) => {
@@ -45,9 +44,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             message: err.message || "Failed to make request",
           });
         }
-      })
-      .finally(() => {
-        dispatch({ type: "SET_LOADING", loading: false });
       });
   }
 
@@ -55,7 +51,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return EMAIL_REGEX.test(email);
   }
 
-  // debounced email check
   function handleEmailChange(email: string): void {
     dispatch({ type: "SET_EMAIL", email });
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
@@ -70,36 +65,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   async function handleLogin(): Promise<void> {
     try {
       const response = await login(state.email, state.password);
-      setAuthSuccess(response.user); // Notify global auth context
-      dispatch({ type: "SET_LOADING", loading: false });
-      console.log("login success");
+      setAuthSuccess(response.user);
     } catch (err) {
       dispatch({
         type: "SET_ERROR",
         message: err instanceof Error ? err.message : "Login failed",
       });
-      dispatch({ type: "SET_LOADING", loading: false });
     }
   }
 
   async function handleRegister(): Promise<void> {
     try {
       const response = await register(state.email, state.password);
-      setAuthSuccess(response.user); // Notify global auth context
-      dispatch({ type: "SET_LOADING", loading: false });
-      console.log("register success");
+      setAuthSuccess(response.user);
     } catch (err) {
       dispatch({
         type: "SET_ERROR",
         message: err instanceof Error ? err.message : "Registration failed",
       });
-      dispatch({ type: "SET_LOADING", loading: false });
     }
   }
 
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
-    dispatch({ type: "SET_LOADING", loading: true });
 
     if (state.isRegistered === true) {
       await handleLogin();
@@ -111,7 +99,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       state.password !== state.confirmPassword
     ) {
       dispatch({ type: "SET_ERROR", message: "Passwords do not match" });
-      dispatch({ type: "SET_LOADING", loading: false });
       return;
     }
 
@@ -137,13 +124,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_ERROR", message: null });
   }
 
-  // maybe use later
   function reset(): void {
     dispatch({ type: "RESET" });
   }
 
   return (
-    <AuthContext.Provider
+    <AuthFormContext.Provider
       value={{
         state,
         handleEmailChange,
@@ -155,6 +141,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthFormContext.Provider>
   );
-};
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuthContext } from "./context/authContext";
+import { useAuthFormContext } from "./context/authFormContext";
 import { EmailInput } from "./EmailInput";
 import { PasswordInput } from "./PasswordInput";
 import { SignupButton } from "./SignupButton";
@@ -8,7 +8,7 @@ import { ConfirmPasswordInput } from "./ConfirmPasswordInput";
 import { PASSWORD_CONDITIONS } from "./constants/authConstants";
 
 export function AuthForm() {
-  const { state, handleSubmit } = useAuthContext();
+  const { state, handleSubmit } = useAuthFormContext();
 
   const totalConditions = PASSWORD_CONDITIONS.length;
   const pwChecklist = PASSWORD_CONDITIONS.map((cond) =>
@@ -16,7 +16,6 @@ export function AuthForm() {
   );
   const conditionMet = pwChecklist.filter(Boolean).length;
   const submitDisabled =
-    state.loading ||
     state.error !== null ||
     state.emailError !== null ||
     !state.email ||
@@ -43,7 +42,7 @@ export function AuthForm() {
         )}
         {state.showPassword && (
           <SignupButton
-            isRegistered={state.isRegistered}
+            isRegistered={state.isRegistered ?? true}
             disabled={submitDisabled}
           />
         )}

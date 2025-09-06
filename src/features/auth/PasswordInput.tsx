@@ -1,9 +1,9 @@
 import React from "react";
 import { Input } from "../../components/ui/Input";
-import { useAuthContext } from "./context/authContext";
+import { useAuthFormContext } from "./context/authFormContext";
 
 export function PasswordInput() {
-  const { state, handlePasswordChange } = useAuthContext();
+  const { state, handlePasswordChange } = useAuthFormContext();
   return (
     <>
       <label

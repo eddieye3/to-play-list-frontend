@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import { LandingView } from "./features/landing/LandingView";
-import { AuthProvider } from "./features/auth/context/AuthProvider";
-import { GlobalAuthProvider } from "./features/auth/context/GlobalAuthProvider";
+import { AuthFormProvider } from "./features/auth/context/AuthFormProvider";
+import { AuthProvider } from "./contexts/AuthProvider";
 import { AuthForm } from "./features/auth/AuthForm";
 import { ProtectedRoute } from "./components/routes/ProtectedRoute";
 import { PublicRoute } from "./components/routes/PublicRoute";
@@ -10,7 +10,7 @@ import { PublicRoute } from "./components/routes/PublicRoute";
 function App() {
   return (
     <BrowserRouter>
-      <GlobalAuthProvider>
+      <AuthProvider>
         <Routes>
           <Route element={<MainLayout />}>
             <Route
@@ -25,15 +25,15 @@ function App() {
               path="/auth"
               element={
                 <PublicRoute>
-                  <AuthProvider>
+                  <AuthFormProvider>
                     <AuthForm />
-                  </AuthProvider>
+                  </AuthFormProvider>
                 </PublicRoute>
               }
             />
           </Route>
         </Routes>
-      </GlobalAuthProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

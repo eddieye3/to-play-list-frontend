@@ -1,9 +1,9 @@
 import React from "react";
 import { Input } from "../../components/ui/Input";
-import { useAuthContext } from "./context/authContext";
+import { useAuthFormContext } from "./context/authFormContext";
 
 export function EmailInput() {
-  const { state, handleEmailChange, handleEmailBlur } = useAuthContext();
+  const { state, handleEmailChange, handleEmailBlur } = useAuthFormContext();
   return (
     <>
       <label
