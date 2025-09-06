@@ -1,7 +1,6 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalAuth } from "../../features/auth/context/globalAuthContext";
-import Loading from "../ui/Loading";
 
 interface PublicRouteProps {
   children: React.ReactNode;
@@ -13,7 +12,7 @@ export function PublicRoute({ children, redirectTo = "/" }: PublicRouteProps) {
   const location = useLocation();
 
   if (state.isLoading) {
-    return <Loading />;
+    return null;
   }
 
   if (state.isAuthenticated) {

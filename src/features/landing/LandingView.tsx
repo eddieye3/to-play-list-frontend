@@ -15,13 +15,7 @@ export function LandingView() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-primary-700">
-        Welcome to To-Play-List
-      </h1>
-      <p className="mb-4 text-lg text-neutral-800 text-center max-w-md">
-        Track your gaming backlog, discover new releases, and manage your
-        wishlist with real-time price and release info.
-      </p>
+      <h1 className="text-4xl font-bold mb-4 text-primary-700">Welcome</h1>
       {state.user && (
         <p className="mb-6 text-sm text-neutral-600 text-center">
           Logged in as: <span className="font-medium">{state.user.email}</span>
@@ -31,12 +25,6 @@ export function LandingView() {
         <Button
           size="lg"
           variant="primary"
-        >
-          Get Started
-        </Button>
-        <Button
-          size="lg"
-          variant="secondary"
           onClick={handleLogout}
         >
           Logout

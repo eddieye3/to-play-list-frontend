@@ -13,7 +13,6 @@ function App() {
       <GlobalAuthProvider>
         <Routes>
           <Route element={<MainLayout />}>
-            {/* Protected Routes */}
             <Route
               path="/"
               element={
@@ -22,8 +21,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* Public Routes - redirect authenticated users */}
             <Route
               path="/auth"
               element={
