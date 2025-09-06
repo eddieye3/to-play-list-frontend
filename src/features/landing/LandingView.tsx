@@ -1,7 +1,8 @@
 import React from "react";
-import { Button } from "../../components/buttons/Button";
+import { Button } from "../../components/ui/Button";
 import { useAuth } from "../../contexts/authContext";
 
+// Temp showcase page
 export function LandingView() {
   const { state, logout } = useAuth();
 
