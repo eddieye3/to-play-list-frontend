@@ -1,11 +1,19 @@
 import axios from "axios";
+import type {
+  AuthenticatedUser,
+  RegisteredUserResponse,
+  LoginResponse,
+  RegisterResponse,
+} from "../interfaces";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL + "api/auth",
+  baseURL: "/api/auth",
+  withCredentials: true,
 });
 
-interface RegisteredUserResponse {
-  isRegistered: boolean;
+// TODO: Remove this after testing
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function getRegisteredUserByEmail(
@@ -17,9 +25,9 @@ export async function getRegisteredUserByEmail(
   return response.data;
 }
 
-interface LoginResponse {
-  token: string;
-  message?: string;
+export async function checkAuth(): Promise<AuthenticatedUser> {
+  const response = await api.get<AuthenticatedUser>("/me");
+  return response.data;
 }
 
 export async function login(
@@ -33,11 +41,6 @@ export async function login(
   return response.data;
 }
 
-interface RegisterResponse {
-  token: string;
-  message?: string;
-}
-
 export async function register(
   email: string,
   password: string
@@ -46,5 +49,10 @@ export async function register(
     email,
     password,
   });
+  return response.data;
+}
+
+export async function logout(): Promise<{ message: string }> {
+  const response = await api.post<{ message: string }>("/logout");
   return response.data;
 }

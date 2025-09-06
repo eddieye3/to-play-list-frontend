@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useContext } from "react";
+import React, { useReducer, useRef } from "react";
 import type { ReactNode } from "react";
 import { authReducer, initialAuthState } from "./authReducer";
 import {
@@ -8,10 +8,12 @@ import {
 } from "../service/authService";
 import { EMAIL_REGEX, PASSWORD_CONDITIONS } from "../constants/authConstants";
 import { AuthContext } from "./authContext";
+import { useGlobalAuth } from "./globalAuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const { setAuthSuccess } = useGlobalAuth();
 
   // check if the email is registered by querying the backend
   function handleEmailCheck(email: string): void {
@@ -65,49 +67,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, 500);
   }
 
-  function handleLogin(): void {
-    login(state.email, state.password)
-      .then((res) => {
-        dispatch({ type: "SET_LOADING", loading: false });
-        console.log("login success: ", res);
-        // TODO: handle login success
-      })
-      .catch((err) => {
-        dispatch({
-          type: "SET_ERROR",
-          message: err.message,
-        });
-      })
-      .finally(() => {
-        dispatch({ type: "SET_LOADING", loading: false });
+  async function handleLogin(): Promise<void> {
+    try {
+      const response = await login(state.email, state.password);
+      setAuthSuccess(response.user); // Notify global auth context
+      dispatch({ type: "SET_LOADING", loading: false });
+      console.log("login success");
+    } catch (err) {
+      dispatch({
+        type: "SET_ERROR",
+        message: err instanceof Error ? err.message : "Login failed",
       });
+      dispatch({ type: "SET_LOADING", loading: false });
+    }
   }
 
-  function handleRegister(): void {
-    register(state.email, state.password)
-      .then((res) => {
-        dispatch({ type: "SET_LOADING", loading: false });
-        console.log("register success: ", res);
-        // TODO: handle register success
-      })
-      .catch((err) => {
-        dispatch({
-          type: "SET_ERROR",
-          message: err.message,
-        });
-      })
-      .finally(() => {
-        dispatch({ type: "SET_LOADING", loading: false });
+  async function handleRegister(): Promise<void> {
+    try {
+      const response = await register(state.email, state.password);
+      setAuthSuccess(response.user); // Notify global auth context
+      dispatch({ type: "SET_LOADING", loading: false });
+      console.log("register success");
+    } catch (err) {
+      dispatch({
+        type: "SET_ERROR",
+        message: err instanceof Error ? err.message : "Registration failed",
       });
+      dispatch({ type: "SET_LOADING", loading: false });
+    }
   }
 
-  function handleSubmit(e: React.FormEvent): void {
+  async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
     dispatch({ type: "SET_LOADING", loading: true });
+
     if (state.isRegistered === true) {
-      handleLogin();
+      await handleLogin();
       return;
     }
+
     if (
       state.isRegistered === false &&
       state.password !== state.confirmPassword
@@ -116,8 +114,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       dispatch({ type: "SET_LOADING", loading: false });
       return;
     }
+
     if (state.isRegistered === false) {
-      handleRegister();
+      await handleRegister();
       return;
     }
   }
